@@ -1,8 +1,6 @@
 export interface Sensex {
-  Date: string;
-  Open: number;
-  High: number;
-  Low: number;
-  Close: number;
+  trade_date: string;
+  open: number;
+  close: number;
 }
 
