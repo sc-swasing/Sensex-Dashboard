@@ -1,16 +1,31 @@
-const pool = require('./db');
+const express = require("express");
+const cors = require("cors");
+const pool = require("./db");
 
-async function testConnection() {
-    try {
-        const result = await pool.query('SELECT NOW()');
-        console.log('✅ PostgreSQL Connected');
-        console.log(result.rows[0]);
-    } catch (err) {
-        console.error('❌ Connection Failed');
-        console.error(err);
-    } finally {
-        await pool.end();
-    }
-}
+const app = express();
 
-testConnection();
+app.use(cors());
+app.use(express.json());
+
+const PORT = 3000;
+
+// API to fetch first 30 records
+app.get("/api/sensex", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT trade_date, open, close
+      FROM sensex_data
+      ORDER BY trade_date DESC
+      LIMIT 30
+    `);
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Database Error" });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
