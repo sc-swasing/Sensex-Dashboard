@@ -14,26 +14,7 @@ export class SensexService {
   getSensexData(): Observable<Sensex[]> {
 
     return this.http
-      .get('assets/Sensex_CSV_2018.csv', { responseType: 'text' })
-      .pipe(
-
-        map(csv => {
-
-          const parsed = Papa.parse<Sensex>(csv, {
-
-            header: true,
-
-            skipEmptyLines: true,
-
-            dynamicTyping: true
-
-          });
-
-          return parsed.data;
-
-        })
-
-      );
+      .get<Sensex[]>('http://localhost:3000/api/sensex');
   }
 
 }
