@@ -23,9 +23,12 @@
       <h1>Sensex <span class="gradient-text">Dashboard</span></h1>
       <p class="hero-tagline">BSE SENSEX &bull; 2018 Historical Trading Data</p>
     </div>
-    <div class="live-pill">
-      <span class="live-dot"></span>
-      {{ sensexData().length }} Records
+    <div class="hero-right">
+      <div class="live-pill">
+        <span class="live-dot"></span>
+        {{ sensexData().length }} Records
+      </div>
+      <button class="btn-logout" (click)="logout()">Logout</button>
     </div>
   </header>
 
