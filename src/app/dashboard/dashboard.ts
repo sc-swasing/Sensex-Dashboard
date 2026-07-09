@@ -1,61 +1,86 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
 import { SensexService } from '../services/sensex.service';
 import { Sensex } from '../models/sensex';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, DecimalPipe],
+  imports: [CommonModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  styleUrl: './dashboard.css'
 })
 export class Dashboard implements OnInit {
-  private _sensexData = signal<Sensex[]>([]);
+
+  sensexData = signal<Sensex[]>([]);
 
   constructor(
     private sensexService: SensexService,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+
+    // Check if JWT token exists
+    const token = localStorage.getItem('jwt');
+
+    if (!token) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Fetch Sensex data
     this.sensexService.getSensexData().subscribe({
+
       next: (data) => {
-        console.log('Successfully fetched sensex data:', data);
-        this._sensexData.set(data);
+        this.sensexData.set(data);
+        console.log(data);
       },
+
       error: (err) => {
-        console.error('Error fetching sensex data:', err);
-        if (err.status === 401) {
+
+        console.error("Error fetching data:", err);
+
+        if (err.status === 401 || err.status === 403) {
+          localStorage.removeItem('jwt');
           this.router.navigate(['/login']);
         }
+
       }
+
     });
+
   }
 
-  sensexData(): Sensex[] { return this._sensexData(); }
-
   getHighestClose(): number {
-    const data = this._sensexData();
-    if (!data.length) return 0;
-    return Math.max(...data.map(d => d.close));
+    return Math.max(...this.sensexData().map(item => Number(item.close)));
   }
 
   getLowestClose(): number {
-    const data = this._sensexData();
-    if (!data.length) return 0;
-    return Math.min(...data.map(d => d.close));
+    return Math.min(...this.sensexData().map(item => Number(item.close)));
   }
 
   getAverageClose(): number {
-    const data = this._sensexData();
-    if (!data.length) return 0;
-    return data.reduce((acc, d) => acc + d.close, 0) / data.length;
+
+    const data = this.sensexData();
+
+    if (data.length === 0) {
+      return 0;
+    }
+
+    const total = data.reduce((sum, item) => sum + Number(item.close), 0);
+
+    return total / data.length;
   }
 
-  logout() {
+  logout(): void {
+
     localStorage.removeItem('jwt');
+
     this.router.navigate(['/login']);
+
   }
+
 }
