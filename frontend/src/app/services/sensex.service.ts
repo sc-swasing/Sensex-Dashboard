@@ -15,4 +15,17 @@ export class SensexService {
   getSensexData(page: number, limit: number): Observable<{ data: Sensex[], totalCount: number, page: number, limit: number }> {
     return this.http.get<{ data: Sensex[], totalCount: number, page: number, limit: number }>(`${this.apiUrl}?page=${page}&limit=${limit}`);
   }
+  addSensexRecord(record: Sensex) {
+
+  return this.http.post(
+    'http://localhost:3000/api/sensex',
+    record,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }
+  );
+
+}
 }
