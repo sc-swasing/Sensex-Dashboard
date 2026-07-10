@@ -1,14 +1,15 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { FormsModule } from '@angular/forms';
 import { SensexService } from '../services/sensex.service';
 import { Sensex } from '../models/sensex';
+import Toastify from 'toastify-js';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -95,5 +96,67 @@ export class Dashboard implements OnInit {
     this.router.navigate(['/login']);
 
   }
+  showModal = signal(false);
+
+newRecord = {
+  trade_date: '',
+  open: 0,
+  close: 0
+};
+
+openModal() {
+  this.showModal.set(true);
+}
+
+closeModal() {
+  this.showModal.set(false);
+
+  this.newRecord = {
+    trade_date: '',
+    open: 0,
+    close: 0
+  };
+}
+addRecord(): void {
+
+  this.sensexService.addSensexRecord(this.newRecord).subscribe({
+    next: () => {
+      Toastify({
+        text: `<div style="display:flex; align-items:center; gap:10px;">
+                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #43e97b;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                 <span>Record Added Successfully</span>
+               </div>`,
+        escapeMarkup: false,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        className: "premium-toast success",
+        style: { background: "transparent", boxShadow: "none" }
+      }).showToast();
+
+      this.closeModal();
+
+      // Reload current page
+      this.loadPageData(this.currentPage(), this.pageSize());
+    },
+    error: (err) => {
+      console.error(err);
+      Toastify({
+        text: `<div style="display:flex; align-items:center; gap:10px;">
+                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f5576c;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                 <span>Unable to add record</span>
+               </div>`,
+        escapeMarkup: false,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        className: "premium-toast error",
+        style: { background: "transparent", boxShadow: "none" }
+      }).showToast();
+    }
+  });
+
+}
+
 
 }

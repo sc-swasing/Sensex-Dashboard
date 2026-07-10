@@ -30,9 +30,13 @@
       </div>
       <button class="btn-logout" (click)="logout()">Logout</button>
     </div>
+    
   </header>
 
   <!-- Stat Cards -->
+   
+
+
   @if (totalRecords() > 0) {
     <section class="stats-grid">
       <div class="stat-card glow-blue">
@@ -159,7 +163,63 @@
         <strong>{{ totalRecords() }}</strong> entries
       </div>
     </div>
+    <div class="add-record-container">
+      <button class="btn-add" (click)="openModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Add Record
+      </button>
+    </div>
   </section>
+
+<!-- added add section -->
+  @if(showModal()){
+
+<div class="modal-overlay">
+  <div class="modal">
+    <h2>Add New Record</h2>
+
+    <div class="form-group">
+      <label>Trade Date</label>
+      <div class="modal-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <input type="date" [(ngModel)]="newRecord.trade_date">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Open Price</label>
+      <div class="modal-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3h12" />
+          <path d="M6 8h12" />
+          <path d="M14.5 21 9 13" />
+          <path d="M13 13c-4.4 0-8-3.6-8-8" />
+        </svg>
+        <input type="number" [(ngModel)]="newRecord.open" placeholder="e.g. 35000.50">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Close Price</label>
+      <div class="modal-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3h12" />
+          <path d="M6 8h12" />
+          <path d="M14.5 21 9 13" />
+          <path d="M13 13c-4.4 0-8-3.6-8-8" />
+        </svg>
+        <input type="number" [(ngModel)]="newRecord.close" placeholder="e.g. 35100.75">
+      </div>
+    </div>
+
+    <div class="modal-buttons">
+      <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+      <button class="btn-submit" (click)="addRecord()" [disabled]="!newRecord.trade_date || !newRecord.open || !newRecord.close">Submit</button>
+    </div>
+  </div>
+</div>
+
+}
 
   <!-- Footer -->
   <footer class="footer">
