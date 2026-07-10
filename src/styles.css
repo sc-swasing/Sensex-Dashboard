@@ -1,4 +1,5 @@
 /* ===== Global Styles — Sensex Dashboard (Vibrant) ===== */
+@import 'toastify-js/src/toastify.css';
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 *,
@@ -86,4 +87,30 @@ body::before {
 ::selection {
   background: var(--neon-purple);
   color: #fff;
+}
+
+/* ===== Premium Custom Toasts ===== */
+.toastify.premium-toast {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 16px !important;
+  color: #fff !important;
+  font-family: 'Outfit', sans-serif !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4) !important;
+  padding: 16px 24px !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.toastify.premium-toast.success {
+  border-left: 4px solid var(--neon-green) !important;
+  background: linear-gradient(to right, rgba(67, 233, 123, 0.1), rgba(255,255,255,0.05)) !important;
+}
+
+.toastify.premium-toast.error {
+  border-left: 4px solid var(--neon-pink) !important;
+  background: linear-gradient(to right, rgba(245, 87, 108, 0.1), rgba(255,255,255,0.05)) !important;
 }
