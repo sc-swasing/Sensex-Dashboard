@@ -28,4 +28,9 @@ export class SensexService {
   );
 
 }
+getMonthlyAverage() {
+  return this.http.get<any[]>(
+    'http://localhost:3000/api/monthly-average'
+  );
+}
 }
