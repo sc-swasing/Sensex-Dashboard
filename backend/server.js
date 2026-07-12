@@ -19,12 +19,9 @@ const SECRET_KEY = "mysecretkey";
 // REGISTER API
 // ========================
 app.post("/register", async (req, res) => {
-
   const { email, password } = req.body;
 
   try {
-
-    // Check if user already exists
     const existingUser = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
@@ -32,44 +29,37 @@ app.post("/register", async (req, res) => {
 
     if (existingUser.rows.length > 0) {
       return res.status(400).json({
-        message: "User already exists"
+        message: "User already exists",
       });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save user
     await pool.query(
       "INSERT INTO users(email, password) VALUES($1, $2)",
       [email, hashedPassword]
     );
 
     res.status(201).json({
-      message: "Registration Successful"
+      message: "Registration Successful",
     });
 
   } catch (err) {
-
     console.error(err);
 
     res.status(500).json({
-      message: "Server Error"
+      message: "Server Error",
     });
-
   }
-
 });
 
 // ========================
 // LOGIN API
 // ========================
 app.post("/login", async (req, res) => {
-
   const { email, password } = req.body;
 
   try {
-
     const result = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
@@ -104,23 +94,21 @@ app.post("/login", async (req, res) => {
 
     res.json({
       message: "Login Successful",
-      token: token,
+      token,
     });
 
   } catch (err) {
-
     console.error(err);
 
     res.status(500).json({
       message: "Server Error",
     });
-
   }
-
 });
 
-
-
+// ========================
+// ADD SENSEX RECORD
+// ========================
 app.post("/api/sensex", authenticateToken, async (req, res) => {
 
   const { trade_date, open, close } = req.body;
@@ -136,7 +124,7 @@ app.post("/api/sensex", authenticateToken, async (req, res) => {
     );
 
     res.status(201).json({
-      message: "Record Added Successfully"
+      message: "Record Added Successfully",
     });
 
   } catch (err) {
@@ -144,7 +132,7 @@ app.post("/api/sensex", authenticateToken, async (req, res) => {
     console.error(err);
 
     res.status(500).json({
-      message: "Database Error"
+      message: "Database Error",
     });
 
   }
@@ -152,14 +140,14 @@ app.post("/api/sensex", authenticateToken, async (req, res) => {
 });
 
 // ========================
-// FETCH SENSEX RECORDS WITH PAGINATION
+// FETCH SENSEX DATA WITH PAGINATION
 // ========================
 app.get("/api/sensex", authenticateToken, async (req, res) => {
 
   try {
 
     const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 10;
+    const limit = parseInt(req.query.limit, 10) || 30;
     const offset = (page - 1) * limit;
 
     const countResult = await pool.query(
@@ -180,10 +168,41 @@ app.get("/api/sensex", authenticateToken, async (req, res) => {
 
     res.json({
       data: dataResult.rows,
-      totalCount: totalCount,
-      page: page,
-      limit: limit
+      totalCount,
+      page,
+      limit,
     });
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      message: "Database Error",
+    });
+
+  }
+
+});
+
+// ========================
+// MONTHLY AVERAGE CLOSING PRICE
+// ========================
+app.get("/api/monthly-average", authenticateToken, async (req, res) => {
+
+  try {
+
+    const result = await pool.query(`
+      SELECT
+        TO_CHAR(trade_date, 'Mon') AS month,
+        EXTRACT(MONTH FROM trade_date) AS month_number,
+        ROUND(AVG(close)::numeric, 2) AS average_close
+      FROM sensex_data
+      GROUP BY month_number, month
+      ORDER BY month_number;
+    `);
+
+    res.json(result.rows);
 
   } catch (err) {
 
