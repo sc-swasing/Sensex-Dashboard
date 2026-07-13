@@ -164,34 +164,31 @@
       </div>
     </div>
     <div class="add-record-container">
-      <button class="btn-add" (click)="openModal()">
+      <button class="btn-add btn-add-record" (click)="openModal()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         Add Record
       </button>
-       <!-- ADD THIS BUTTON -->
-  <button class="btn-add" (click)="showMonthlyChart()">
-    📊 Show Monthly Average Chart
-  </button>
-
-</div>
+      <button class="btn-add btn-chart" (click)="showMonthlyChart()">
+        📊 Show Monthly Average Chart
+      </button>
+    </div>
     
   </section>
 
- <!-- ADD THIS BUTTON -->
   @if(showChart){
-
-<div class="chart-container">
-  <h2>Average Monthly Closing Prices</h2>
-
-  <canvas
-    baseChart
-    [data]="barChartData"
-    [options]="barChartOptions"
-    [type]="'bar'">
-  </canvas>
-</div>
-
-}
+    <div class="chart-container">
+      <div class="chart-header">
+        <h2>📊 Average Monthly Closing Prices</h2>
+        <button class="btn-close-chart" (click)="showChart = false">✕ Close</button>
+      </div>
+      <canvas
+        baseChart
+        [data]="barChartData"
+        [options]="barChartOptions"
+        type="bar">
+      </canvas>
+    </div>
+  }
 
 <!-- added add section -->
   @if(showModal()){
