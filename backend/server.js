@@ -122,16 +122,16 @@ app.post("/login", async (req, res) => {
 // ========================
 app.post("/api/sensex", authenticateToken, async (req, res) => {
 
-  const { trade_date, open, close } = req.body;
+  const { trade_date, open, high, low, close } = req.body;
 
   try {
 
     await pool.query(
       `
-      INSERT INTO sensex_data(trade_date, open, close)
-      VALUES($1,$2,$3)
+      INSERT INTO sensex_data(trade_date, open, high, low, close)
+      VALUES($1,$2,$3,$4,$5)
       `,
-      [trade_date, open, close]
+      [trade_date, open, high, low, close]
     );
       io.emit("newRecord");
     res.status(201).json({
@@ -169,7 +169,7 @@ app.get("/api/sensex", authenticateToken, async (req, res) => {
 
     const dataResult = await pool.query(
       `
-      SELECT trade_date, open, close
+      SELECT trade_date, open, high, low, close
       FROM sensex_data
       ORDER BY trade_date DESC
       LIMIT $1 OFFSET $2
