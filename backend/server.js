@@ -4,11 +4,22 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const pool = require("./db");
 const authenticateToken = require("./middleware/auth");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const app = express();
+const server = http.createServer(app);
+
+//initialize aocket.io server with CORS settings
 
 app.use(cors());
 app.use(express.json());
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST"]
+  }
+})
 
 const PORT = 3000;
 
@@ -122,7 +133,7 @@ app.post("/api/sensex", authenticateToken, async (req, res) => {
       `,
       [trade_date, open, close]
     );
-
+      io.emit("newRecord");
     res.status(201).json({
       message: "Record Added Successfully",
     });
@@ -216,9 +227,19 @@ app.get("/api/monthly-average", authenticateToken, async (req, res) => {
 
 });
 
+io.on("connection", (socket) => {
+
+  console.log("✅ Client Connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("❌ Client Disconnected:", socket.id);
+  });
+
+});
+
 // ========================
 // START SERVER
 // ========================
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🚀 Server is running at http://localhost:${PORT}`);
 });
