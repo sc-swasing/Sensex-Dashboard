@@ -101,6 +101,8 @@
             <th>#</th>
             <th>Date</th>
             <th class="right">Open</th>
+            <th class="right">High</th>
+            <th class="right">Low</th>
             <th class="right">Close</th>
             <th class="right">Change</th>
           </tr>
@@ -111,6 +113,8 @@
               <td class="row-num">{{ (currentPage() - 1) * pageSize() + i + 1 }}</td>
               <td class="row-date">{{ item.trade_date }}</td>
               <td class="row-val right">{{ item.open | number:'1.2-2' }}</td>
+              <td class="right">{{ item.high }}</td>
+              <td class="right">{{ item.low }}</td>
               <td class="row-val right">{{ item.close | number:'1.2-2' }}</td>
               <td class="row-val right"
                   [class.up]="item.close >= item.open"
@@ -217,6 +221,42 @@
         <input type="number" [(ngModel)]="newRecord.open" placeholder="e.g. 35000.50">
       </div>
     </div>
+    // added high field
+    <div class="form-group">
+  <label>High Price</label>
+  <div class="modal-input-wrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="M6 3h12" />
+      <path d="M6 8h12" />
+      <path d="M14.5 21 9 13" />
+      <path d="M13 13c-4.4 0-8-3.6-8-8" />
+    </svg>
+    <input
+      type="number"
+      [(ngModel)]="newRecord.high"
+      placeholder="e.g. 35250.25">
+  </div>
+</div>
+  // added low field
+  <div class="form-group">
+  <label>Low Price</label>
+  <div class="modal-input-wrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <path d="M6 3h12" />
+      <path d="M6 8h12" />
+      <path d="M14.5 21 9 13" />
+      <path d="M13 13c-4.4 0-8-3.6-8-8" />
+    </svg>
+    <input
+      type="number"
+      [(ngModel)]="newRecord.low"
+      placeholder="e.g. 34800.10">
+  </div>
+</div>
 
     <div class="form-group">
       <label>Close Price</label>
