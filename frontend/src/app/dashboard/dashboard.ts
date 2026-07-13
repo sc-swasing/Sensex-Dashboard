@@ -153,7 +153,11 @@ public barChartOptions: ChartConfiguration<'bar'>['options'] = {
   newRecord = {
     trade_date: '',
   open: 0,
+  high: 0,
+  low: 0,
   close: 0
+
+
 };
 
 openModal() {
@@ -166,6 +170,8 @@ closeModal() {
   this.newRecord = {
     trade_date: '',
     open: 0,
+    high: 0,
+    low: 0,
     close: 0
   };
 }
