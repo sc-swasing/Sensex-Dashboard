@@ -18,6 +18,8 @@ fs.createReadStream(filePath)
       trade_date: row.Date,
       open: parseFloat(row.Open),  //convert the string into number
       close: parseFloat(row.Close),
+      high: parseFloat(row.High),
+       low: parseFloat(row.Low),
     });
   })
   .on("end", async () => {  // this will fired only once
@@ -33,9 +35,9 @@ fs.createReadStream(filePath)
 
       for (const record of records) {
         await pool.query(
-          `INSERT INTO sensex_data (trade_date, open, close)
-           VALUES ($1, $2, $3)`,
-          [record.trade_date, record.open, record.close]
+          `INSERT INTO sensex_data (trade_date, open, high, low, close)
+VALUES ($1, $2, $3, $4, $5);`,
+          [record.trade_date, record.open, record.high, record.low, record.close]
         );
       }
 
