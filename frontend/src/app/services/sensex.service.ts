@@ -12,9 +12,11 @@ export class SensexService {
 
   constructor(private http: HttpClient) {}
 
-  getSensexData(page: number, limit: number): Observable<{ data: Sensex[], totalCount: number, page: number, limit: number }> {
-    return this.http.get<{ data: Sensex[], totalCount: number, page: number, limit: number }>(`${this.apiUrl}?page=${page}&limit=${limit}`);
-  }
+ getSensexData(page: number, limit: number, search: string) {
+  return this.http.get<any>(
+    `${this.apiUrl}?page=${page}&limit=${limit}&search=${search}`
+  );
+}
   addSensexRecord(record: Sensex) {
     return this.http.post('http://localhost:3000/api/sensex', record);
   }
