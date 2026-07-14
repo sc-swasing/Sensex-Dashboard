@@ -20,11 +20,13 @@ export class Dashboard implements OnInit {
 
   sensexData = signal<Sensex[]>([]);
 
-  currentPage = signal<number>(1);
-  pageSize = signal<number>(10);
-  totalRecords = signal<number>(0);
-  // Compute total pages dynamically
-  totalPages = computed(() => Math.ceil(this.totalRecords() / this.pageSize()));
+
+  searchText = signal('');
+
+currentPage = signal<number>(1);
+pageSize = signal<number>(30);
+totalRecords = signal<number>(0);
+totalPages = computed(() => Math.ceil(this.totalRecords() / this.pageSize()));
   // ======================
 // Chart Variables
 // ======================
@@ -87,7 +89,7 @@ public barChartOptions: ChartConfiguration<'bar'>['options'] = {
   });
   }
   loadPageData(page: number, limit: number): void {
-    this.sensexService.getSensexData(page, limit).subscribe({
+    this.sensexService.getSensexData(page, limit, this.searchText()).subscribe({
       next: (res) => {
         this.sensexData.set(res.data);
         this.totalRecords.set(res.totalCount);
@@ -119,6 +121,13 @@ public barChartOptions: ChartConfiguration<'bar'>['options'] = {
       this.loadPageData(page, this.pageSize());
     }
   }
+  onSearch(value: string): void {
+
+  this.searchText.set(value);
+
+  this.loadPageData(1, this.pageSize());
+
+}
 
   getHighestClose(): number {
     return Math.max(...this.sensexData().map(item => Number(item.close)));
