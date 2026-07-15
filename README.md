@@ -48,35 +48,50 @@ A full-stack web application that displays Sensex stock market data with secure 
 ```text
 Assignment_01/
 │
-├── backend/
-│   ├── middleware/
-│   │      authenticateToken.js
-│   │
-│   ├── routes/
-│   │      sensex.js
-│   │
-│   ├── db.js
-│   ├── server.js
-│   ├── package.json
-│   ├── .env
-│   └── startup.js
-│
-├── frontend/
-│   ├── src/
-│   │
-│   ├── app/
-│   │   ├── dashboard/
-│   │   ├── login/
-│   │   ├── services/
-│   │   ├── models/
-│   │   ├── interceptors/
-│   │   └── app.routes.ts
-│   │
-│   ├── assets/
-│   ├── environments/
-│   └── package.json
-│
-└── README.md
+└── sensex-dashboard/
+    │
+    ├── backend/
+    │   ├── middleware/
+    │   │   └── auth.js
+    │   ├── node_modules/
+    │   ├── db.js
+    │   ├── importData.js
+    │   ├── server.js
+    │   ├── Sensex_CSV_2018.csv
+    │   ├── package.json
+    │   └── package-lock.json
+    │
+    ├── frontend/
+    │   ├── node_modules/
+    │   ├── public/
+    │   ├── src/
+    │   │   ├── app/
+    │   │   │   ├── dashboard/
+    │   │   │   ├── login/
+    │   │   │   ├── register/
+    │   │   │   ├── models/
+    │   │   │   ├── services/
+    │   │   │   ├── app.html
+    │   │   │   ├── app.ts
+    │   │   │   ├── app.routes.ts
+    │   │   │   ├── app.spec.ts
+    │   │   │   └── auth.interceptor.ts
+    │   │   │
+    │   │   ├── assets/
+    │   │   ├── index.html
+    │   │   ├── main.ts
+    │   │   └── styles.css
+    │   │
+    │   ├── angular.json
+    │   ├── package.json
+    │   ├── package-lock.json
+    │   ├── tsconfig.json
+    │   └── .prettierrc
+    │
+    ├── .editorconfig
+    ├── .gitignore
+    └── README.md
+```
 ```
 
 ---
