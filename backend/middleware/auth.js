@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET_KEY = "mysecretkey";
+const SECRET_KEY = process.env.JWT_SECRET;
 
 function authenticateToken(req, res, next) {
     console.log("✅ Middleware executed");
