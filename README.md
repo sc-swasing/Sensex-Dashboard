@@ -1,59 +1,306 @@
-# SensexDashboard
+# 📈 Sensex Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.5.
+<p align="center">
+  <img src="https://img.shields.io/badge/Angular-22-red?style=for-the-badge&logo=angular" />
+  <img src="https://img.shields.io/badge/Node.js-Express-green?style=for-the-badge&logo=node.js" />
+  <img src="https://img.shields.io/badge/PostgreSQL-16-blue?style=for-the-badge&logo=postgresql" />
+  <img src="https://img.shields.io/badge/JWT-Authentication-orange?style=for-the-badge" />
+</p>
 
-## Development server
+<p align="center">
+A full-stack web application that displays Sensex stock market data with secure authentication, pagination, search, and interactive visualization.
+</p>
 
-To start a local development server, run:
+---
+
+# 🚀 Features
+
+✅ JWT Authentication
+
+✅ Paginated Data (30 rows per page)
+
+✅ Search Functionality
+
+✅ PostgreSQL Database
+
+✅ REST APIs using Express.js
+
+✅ Angular Standalone Components
+
+✅ Responsive UI
+
+✅ Interactive Stock Chart
+
+---
+
+# 🛠 Tech Stack
+
+| Frontend | Backend | Database | Authentication |
+|-----------|----------|-----------|----------------|
+| Angular 22 | Node.js | PostgreSQL | JWT |
+| TypeScript | Express.js | SQL | Bearer Token |
+| Chart.js | REST API | pg | bcrypt |
+
+---
+
+# 📂 Project Structure
+
+```text
+Assignment_01/
+│
+├── backend/
+│   ├── middleware/
+│   │      authenticateToken.js
+│   │
+│   ├── routes/
+│   │      sensex.js
+│   │
+│   ├── db.js
+│   ├── server.js
+│   ├── package.json
+│   ├── .env
+│   └── startup.js
+│
+├── frontend/
+│   ├── src/
+│   │
+│   ├── app/
+│   │   ├── dashboard/
+│   │   ├── login/
+│   │   ├── services/
+│   │   ├── models/
+│   │   ├── interceptors/
+│   │   └── app.routes.ts
+│   │
+│   ├── assets/
+│   ├── environments/
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+# ⚙ Prerequisites
+
+Install the following software before running the project.
+
+- Node.js
+- npm
+- Angular CLI
+- PostgreSQL
+
+Verify installation
+
+```bash
+node -v
+npm -v
+ng version
+psql --version
+```
+
+---
+
+# 📦 Backend Setup
+
+Navigate to backend folder
+
+```bash
+cd backend
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create a `.env` file
+
+```env
+PORT=3000
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=sensexdb
+DB_USER=postgres
+DB_PASSWORD=your_password
+
+JWT_SECRET=your_secret_key
+```
+
+Run backend
+
+```bash
+node server.js
+```
+
+Backend runs on
+
+```
+http://localhost:3000
+```
+
+---
+
+# 💻 Frontend Setup
+
+Navigate to frontend
+
+```bash
+cd frontend
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Run Angular
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Application runs on
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+# 🔐 Authentication
+
+Login Endpoint
+
+```
+POST /login
 ```
 
-## Building
+Sample Request
 
-To build the project run:
-
-```bash
-ng build
+```json
+{
+    "username":"admin",
+    "password":"password"
+}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Response
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```json
+{
+   "token":"JWT_TOKEN"
+}
 ```
 
-## Running end-to-end tests
+Pass the token in every API request
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```
+Authorization: Bearer <JWT_TOKEN>
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+# 📡 API Endpoints
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Login
+
+```
+POST /login
+```
+
+---
+
+## Get Sensex Data
+
+```
+GET /api/sensex?page=1&limit=30&search=
+```
+
+### Query Parameters
+
+| Parameter | Description |
+|------------|-------------|
+| page | Current page number |
+| limit | Number of records |
+| search | Search by trade date |
+
+---
+
+# 🗄 Database Schema
+
+Table : **sensex**
+
+| Column | Type |
+|---------|------|
+| trade_date | DATE |
+| open | NUMERIC |
+| close | NUMERIC |
+
+---
+
+# 🌍 Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| PORT | Backend Port |
+| DB_HOST | Database Host |
+| DB_PORT | PostgreSQL Port |
+| DB_NAME | Database Name |
+| DB_USER | Database Username |
+| DB_PASSWORD | Database Password |
+| JWT_SECRET | JWT Secret Key |
+
+---
+
+# ▶ Running the Project
+
+### Start Backend
+
+```bash
+cd backend
+node server.js
+```
+
+### Start Frontend
+
+```bash
+cd frontend
+ng serve
+```
+
+Open browser
+
+```
+http://localhost:4200
+```
+
+---
+
+# 📸 Application Modules
+
+- 🔑 Login Page
+- 📊 Dashboard
+- 📈 Stock Price Chart
+- 🔍 Search
+- 📑 Pagination
+
+---
+
+# 🔒 Security
+
+- JWT Authentication
+- Protected REST APIs
+- Authorization Header Validation
+
+---
+
+# 👩‍💻 Author
+
+**Swati Singh**
+
+
+```
