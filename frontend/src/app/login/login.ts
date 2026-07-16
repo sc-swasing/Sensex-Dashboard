@@ -29,7 +29,7 @@ export class Login {
     });
   }
 
-  onSubmit().: void {
+  onSubmit(): void {
 
     if (this.loginForm.invalid) {
       return;
