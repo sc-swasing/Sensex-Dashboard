@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-A full-stack web application that displays Sensex stock market data with secure authentication, pagination, search, and interactive visualization.
+A full-stack web application that displays Sensex stock market data with secure authentication, pagination, search, and interactive visualization..
 </p>
 
 ---
