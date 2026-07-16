@@ -272,7 +272,10 @@ io.on("connection", (socket) => {
 
 // ========================
 // START SERVER
-// ========================
-server.listen(PORT, () => {
-  console.log(`🚀 Server is running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`🚀 Server is running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = { app, server };
